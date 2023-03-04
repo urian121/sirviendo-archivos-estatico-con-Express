@@ -1,16 +1,20 @@
 // Incluimos el modulo de express
 const express = require("express");
 
-// Incluimos el modulo de path
+// Incluimos el modulo de path que viene por defecto en la instalacion de Node.js
 const path = require("path");
 
-// Creamos la aplicación de express con la función express()
+// Creamos la aplicación de Express con la función express()
 const app = express();
 
 //Le decimos al servidor que use la carpeta /app como fuente de archivos estáticos
 app.use(express.static("app"));
 
-// Establecemos un puerto en el cual nuestro servidor estará escuchando
+// express.static() es una función del middleware
+// Un middleware es una función que se puede ejecutar antes o después del manejo de una ruta.
+// Esta función tiene acceso al objeto Request, Response y la función next()
+
+// Establecemos un puerto por el cual nuestro servidor estará escuchando
 const PORT = process.env.PORT || 3000;
 
 // Servimos los archivos que se encuentran en el directorio public
@@ -20,7 +24,7 @@ app.use(express.static(path.join(__dirname, "public")));
 //app.use(express.static(__dirname + '/public'));
 
 app.get("/rutax", (req, res) => {
-  res.sendFile(__dirname + "/app/index.html");
+  res.sendFile(__dirname + "/app/hola.html");
 });
 
 /*
