@@ -1,51 +1,96 @@
-#Primer comando para inicializar desarrollo
+# Servidor Express con Archivos Estáticos
+
+## 🚀 Inicializar el proyecto
+
+```bash
 npm init -y
+```
 
-#Instalar express
-npm install --save express
+## 📦 Instalar Express
 
-#Creamos una carpeta dentro del proyecto donde irán nuestros archivos estáticos.
-#Para este caso la carpeta se llamará app
+```bash
+npm install express
+```
 
-#Configuración de directorios
+## 🗂 Estructura del proyecto
 
-#Se colon todos los archivos estáticos en la carpeta /app, ejemplo,imágenes, videos, archivos, css, etc, con el fin que el servidor Express utilice esa carpeta como fuente de archivos estáticos.
+Creamos una carpeta donde pondremos todos los archivos estáticos. Por ejemplo:
 
-#Solo tenemos que usar la función de middleware el código express.static().
+```
+/app
+  ├── index.html
+  ├── style.css
+  ├── logo.png
+  └── script.js
+```
 
-#Si por ejemplo en nuestra carpeta /app hubieran archivos como js, css, htm, imagenes, index.html, etc, podríamos acceder a los mismo desde el servidor con las rutas:
+## ⚙️ Configurar Express para servir archivos estáticos
 
+```js
+const express = require('express')
+const app = express()
+const port = 3000
+
+// Carpeta principal de archivos estáticos
+app.use(express.static('app'))
+
+// Otra carpeta opcional (por ejemplo: 'static')
+app.use(express.static('static'))
+
+// Iniciar el servidor
+app.listen(port, () => {
+  console.log(`Servidor corriendo en http://localhost:${port}`)
+})
+```
+
+📌 **Importante:** Express buscará los archivos en el orden en que definiste los `.use()`.
+
+## 🧪 Ejemplos de acceso
+
+Si tienes los siguientes archivos dentro de `/app`:
+
+- `logo.png`
+- `style.css`
+- `hola.html`
+
+Podrás acceder desde el navegador así:
+
+```
 http://localhost:3000/logo.png
 http://localhost:3000/style.css
 http://localhost:3000/hola.html
+```
 
-#IMPORTANTE: Si por ejemplo quisieramos tener otra carpeta con archivo estaticos,
-#es decir usarla como fuente de archivos estáticos, obvio que no se la anterior,
-#imaginemos que la llamamos 'static o public' simplemente hay que llamar la función nuevamente asi;
+## 🛣 Usar una ruta personalizada
 
-//Le decimos al servidor Express que use las carpetas /app y /static como fuente de archivos státicos
-app.use(express.static('app'))
-app.use(express.static('static'))
+Si quieres servir los archivos desde una ruta específica (`/static` por ejemplo):
 
-//IMPORTANTE: Express buscará los archivos en el orden que definan los directorios estáticos.
-
-//Rutas personalizadas
-#Si queremos crear una ruta personalizada con la cual acceder los archivos estáticos,
-#lo podemos hacer pasando el nombre como primer parámetro de la función de la siguiente manera:
-
-// le decimos al servidor Express que use la carpeta /app y /static como fuente de archivos estáticos
+```js
 app.use('/static', express.static('app'))
 app.use('/static', express.static('static'))
+```
 
-//Accederíamos a los archivos de esta forma:
-http://localhost:3000/app/logo.png
-http://localhost:3000/app/style.css
-http://localhost:3000/app/hola.html
+Y accederías así:
 
-#REFERENCIA: https://expressjs.com/es/starter/static-files.html
+```
+http://localhost:3000/static/logo.png
+http://localhost:3000/static/style.css
+```
 
-#Para ejecutar el aplicativo, hay varias formas
+## ▶️ Ejecutar el servidor
 
-- node app.js
-- node --watch app.js
-  #Este último paquete que ya bien con nodeJS tambien y esta siempre a la escucha de los cambios.
+```bash
+node app.js
+```
+
+O si querés que escuche los cambios automáticamente (Node 18+):
+
+```bash
+node --watch app.js
+```
+
+---
+
+## 📚 Referencias
+
+- [Archivos estáticos en Express](https://expressjs.com/es/starter/static-files.html)
